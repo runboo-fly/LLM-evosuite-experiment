@@ -29,6 +29,15 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.evosuite.plugins</groupId>
+                <artifactId>evosuite-maven-plugin</artifactId>
+                <version>1.0.6</version>
+                <executions><execution>
+                    <goals> <goal> prepare </goal> </goals>
+                    <phase> process-test-classes </phase>
+                </execution></executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -50,6 +59,14 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -58,6 +75,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.evosuite</groupId>
+            <artifactId>evosuite-runtime</artifactId>
+            <version>1.2.1-SNAPSHOT</version> <!-- 使用你的实际版本号 -->
             <scope>test</scope>
         </dependency>
 
