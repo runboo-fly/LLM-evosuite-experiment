@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AVLNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">testproject</a> &gt; <a href="index.source.html" class="el_package">AVLTree</a> &gt; <span class="el_source">AVLNode.java</span></div><h1>AVLNode.java</h1><pre class="source lang-java linenums">package AVLTree;
+
+/**
+ * Created by Krietallo on 4/27/2017.
+ */
+public class AVLNode&lt;T&gt; {
+
+    private static final int ALLOWED_IMBALANCE = 1; //Difference between left and right subtrees
+    private T element; // The data in the node
+    private AVLNode&lt;T&gt; left; // Left child
+    private AVLNode&lt;T&gt; right; // Right child
+
+
+    public AVLNode(T theElement) {
+<span class="nc" id="L15">        this(theElement, null, null);</span>
+<span class="nc" id="L16">    }</span>
+
+<span class="nc" id="L18">    public AVLNode(T theElement, AVLNode&lt;T&gt; lt, AVLNode&lt;T&gt; rt) {</span>
+<span class="nc" id="L19">        element = theElement;</span>
+<span class="nc" id="L20">        left = lt;</span>
+<span class="nc" id="L21">        right = rt;</span>
+<span class="nc" id="L22">    }</span>
+
+    private static AVLNode balance(AVLNode t) {
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (t == null)</span>
+<span class="nc" id="L26">            return t;</span>
+
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (t.getLeftHeight() - t.getRightHeight() &gt; ALLOWED_IMBALANCE)</span>
+<span class="nc bnc" id="L29" title="All 6 branches missed.">            if ((t.left == null ? 0 : t.left.getLeftHeight()) &gt;= (t.left == null ? 0 : t.left.getRightHeight()))</span>
+<span class="nc" id="L30">                t = rotateWithLeftChild(t);</span>
+            else
+<span class="nc" id="L32">                t = doubleWithLeftChild(t);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        else if (t.getRightHeight() - t.getLeftHeight() &gt; ALLOWED_IMBALANCE)</span>
+<span class="nc bnc" id="L34" title="All 6 branches missed.">            if ((t.right == null ? 0 : t.right.getRightHeight()) &gt;= (t.right == null ? 0 : t.right.getLeftHeight()))</span>
+<span class="nc" id="L35">                t = rotateWithRightChild(t);</span>
+            else
+<span class="nc" id="L37">                t = doubleWithRightChild(t);</span>
+
+<span class="nc" id="L39">        return t;</span>
+    }
+
+    private static AVLNode rotateWithRightChild(AVLNode k1) {
+<span class="nc" id="L43">        AVLNode k2 = k1.right;</span>
+<span class="nc" id="L44">        k1.right = k2.left;</span>
+<span class="nc" id="L45">        k2.left = k1;</span>
+<span class="nc" id="L46">        return k2;</span>
+    }
+
+    private static AVLNode rotateWithLeftChild(AVLNode k2) {
+<span class="nc" id="L50">        AVLNode k1 = k2.left;</span>
+<span class="nc" id="L51">        k2.left = k1.right;</span>
+<span class="nc" id="L52">        k1.right = k2;</span>
+<span class="nc" id="L53">        return k1;</span>
+    }
+
+    private static AVLNode doubleWithRightChild(AVLNode k1) {
+<span class="nc" id="L57">        k1.right = rotateWithLeftChild(k1.right);</span>
+<span class="nc" id="L58">        return rotateWithRightChild(k1);</span>
+    }
+
+    private static AVLNode doubleWithLeftChild(AVLNode k3) {
+<span class="nc" id="L62">        k3.left = rotateWithRightChild(k3.left);</span>
+<span class="nc" id="L63">        return rotateWithLeftChild(k3);</span>
+    }
+
+    private int getLeftHeight() {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        return this.left == null ? 0 : this.left.getHeight();</span>
+    }
+
+    private int getRightHeight() {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        return this.right == null ? 0 : this.right.getHeight();</span>
+    }
+
+    private static AVLNode remove(Object x, AVLNode source) {
+<span class="nc" id="L75">        int compareResult = x.toString().compareTo(source.element.toString());</span>
+
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (compareResult &lt; 0) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if (source.left == null)</span>
+<span class="nc" id="L79">                return null;</span>
+<span class="nc" id="L80">            source.left = remove(x, source.left);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        } else if (compareResult &gt; 0) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (source.right == null)</span>
+<span class="nc" id="L83">                return null;</span>
+<span class="nc" id="L84">            source.right = remove(x, source.right);</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        } else if (source.left != null &amp;&amp; source.right != null) {</span>
+            // Two children
+<span class="nc" id="L87">            source.element = source.findMin(source.right).element;</span>
+<span class="nc" id="L88">            source.right = remove(source.element, source.right);</span>
+        } else
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            source = source.left != null ? source.left : source.right;</span>
+<span class="nc" id="L91">        return balance(source);</span>
+    }
+
+    public T getElement() {
+<span class="nc" id="L95">        return element;</span>
+    }
+
+    public AVLNode&lt;T&gt; getLeft() {
+<span class="nc" id="L99">        return left;</span>
+    }
+
+    public AVLNode&lt;T&gt; getRight() {
+<span class="nc" id="L103">        return right;</span>
+    }
+
+    public int getHeight() {
+<span class="nc bnc" id="L107" title="All 4 branches missed.">        return 1 + Math.max(this.left == null ? 0 : this.left.getHeight(), this.right == null ? 0 : this.right.getHeight());</span>
+    }
+
+    public AVLNode&lt;T&gt; insert(T x) throws Exception {
+<span class="nc" id="L111">        int compareResult = x.toString().compareTo(this.element.toString());</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (compareResult &lt; 0) {</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            if (this.left != null) {</span>
+<span class="nc" id="L114">                this.left = this.left.insert(x);</span>
+            } else {
+<span class="nc" id="L116">                this.left = new AVLNode&lt;T&gt;(x);</span>
+            }
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        } else if (compareResult &gt; 0) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (this.right != null) {</span>
+<span class="nc" id="L120">                this.right = this.right.insert(x);</span>
+            } else {
+<span class="nc" id="L122">                this.right = new AVLNode&lt;T&gt;(x);</span>
+            }
+        } else {
+<span class="nc" id="L125">            throw new Exception(&quot;Duplicate&quot;);</span>
+        }
+<span class="nc" id="L127">        return balance(this);</span>
+    }
+
+    public AVLNode&lt;T&gt; findMin(AVLNode&lt;T&gt; t) {
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        while (t.left != null)</span>
+<span class="nc" id="L132">            t = t.left;</span>
+
+<span class="nc" id="L134">        return t;</span>
+    }
+
+    public boolean search(T x) {
+<span class="nc" id="L138">        int compareResult = x.toString().compareTo(this.getElement().toString());</span>
+<span class="nc" id="L139">        boolean found = true;</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (compareResult &lt; 0) {</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if (this.left == null)</span>
+<span class="nc" id="L142">                return false;</span>
+<span class="nc" id="L143">            found = this.left.search(x);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        } else if (compareResult &gt; 0) {</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            if (this.right == null)</span>
+<span class="nc" id="L146">                return false;</span>
+<span class="nc" id="L147">            found = this.right.search(x);</span>
+        }
+<span class="nc" id="L149">        return found;</span>
+
+    }
+
+    public AVLNode&lt;T&gt; delete(T x) {
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (search(x))</span>
+<span class="nc" id="L155">            return remove(x, this);</span>
+
+<span class="nc" id="L157">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
