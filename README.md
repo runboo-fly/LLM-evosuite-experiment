@@ -18,12 +18,12 @@
             ├── Tree_ESTest.java
             └── Tree_ESTest_scaffolding.java
 ```
-### 3.使用maven生成编译后的代码
+### 3.使用maven生成编译后的字节码
 maven命令为
 ```
 mvn clean install
 ```
-编译后的代码存放在IdeaProjects/EvoSuite-IDEA/com.example/target，目录结构为：
+编译后的字节码存放在IdeaProjects/EvoSuite-IDEA/com.example/target，目录结构为：
 ```
 .
 ├── classes
