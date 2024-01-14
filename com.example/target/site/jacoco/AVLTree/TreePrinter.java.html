@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TreePrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">testproject</a> &gt; <a href="index.source.html" class="el_package">AVLTree</a> &gt; <span class="el_source">TreePrinter.java</span></div><h1>TreePrinter.java</h1><pre class="source lang-java linenums">package AVLTree;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Created by louay on 4/29/2017.
+ */
+<span class="nc" id="L10">public class TreePrinter {</span>
+
+    public static &lt;T extends Comparable&lt;?&gt;&gt; String printNode(AVLNode&lt;T&gt; root) {
+<span class="nc" id="L13">        int maxLevel = TreePrinter.maxLevel(root);</span>
+<span class="nc" id="L14">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L15">        return printNodeInternal(Collections.singletonList(root), 1, maxLevel, sb);</span>
+    }
+
+    private static &lt;T extends Comparable&lt;?&gt;&gt; String printNodeInternal(List&lt;AVLNode&lt;T&gt;&gt; nodes, int level, int maxLevel, StringBuilder sb) {
+<span class="nc bnc" id="L19" title="All 4 branches missed.">        if (nodes.isEmpty() || TreePrinter.isAllElementsNull(nodes))</span>
+<span class="nc" id="L20">            return &quot;&quot;;</span>
+
+<span class="nc" id="L22">        int floor = maxLevel - level;</span>
+<span class="nc" id="L23">        int endgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));</span>
+<span class="nc" id="L24">        int firstSpaces = (int) Math.pow(2, (floor)) - 1;</span>
+<span class="nc" id="L25">        int betweenSpaces = (int) Math.pow(2, (floor + 1)) - 1;</span>
+
+<span class="nc" id="L27">        TreePrinter.printWhitespaces(firstSpaces, sb);</span>
+
+<span class="nc" id="L29">        List&lt;AVLNode&lt;T&gt;&gt; newNodes = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (AVLNode&lt;T&gt; node : nodes) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">            if (node != null) {</span>
+<span class="nc" id="L32">                System.out.print(node.getElement());</span>
+<span class="nc" id="L33">                sb.append(node.getElement());</span>
+<span class="nc" id="L34">                newNodes.add(node.getLeft());</span>
+<span class="nc" id="L35">                newNodes.add(node.getRight());</span>
+            } else {
+<span class="nc" id="L37">                newNodes.add(null);</span>
+<span class="nc" id="L38">                newNodes.add(null);</span>
+<span class="nc" id="L39">                System.out.print(&quot; &quot;);</span>
+<span class="nc" id="L40">                sb.append(&quot; &quot;);</span>
+            }
+
+<span class="nc" id="L43">            TreePrinter.printWhitespaces(betweenSpaces, sb);</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc" id="L45">        System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L46">        sb.append(&quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (int i = 1; i &lt;= endgeLines; i++) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">            for (int j = 0; j &lt; nodes.size(); j++) {</span>
+<span class="nc" id="L50">                TreePrinter.printWhitespaces(firstSpaces - i, sb);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                if (nodes.get(j) == null) {</span>
+<span class="nc" id="L52">                    TreePrinter.printWhitespaces(endgeLines + endgeLines + i + 1, sb);</span>
+<span class="nc" id="L53">                    continue;</span>
+                }
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                if (nodes.get(j).getLeft() != null) {</span>
+<span class="nc" id="L57">                    System.out.print(&quot;/&quot;);</span>
+<span class="nc" id="L58">                    sb.append(&quot;/&quot;);</span>
+                }
+                else
+<span class="nc" id="L61">                    TreePrinter.printWhitespaces(1, sb);</span>
+
+<span class="nc" id="L63">                TreePrinter.printWhitespaces(i + i - 1, sb);</span>
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                if (nodes.get(j).getRight() != null) {</span>
+<span class="nc" id="L66">                    System.out.print(&quot;\\&quot;);</span>
+<span class="nc" id="L67">                    sb.append(&quot;\\&quot;);</span>
+                }
+                else
+<span class="nc" id="L70">                    TreePrinter.printWhitespaces(1,  sb);</span>
+
+<span class="nc" id="L72">                TreePrinter.printWhitespaces(endgeLines + endgeLines - i, sb);</span>
+            }
+
+<span class="nc" id="L75">            System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L76">            sb.append(&quot;\n&quot;);</span>
+        }
+<span class="nc" id="L78">        printNodeInternal(newNodes, level + 1, maxLevel, sb);</span>
+<span class="nc" id="L79">        return sb.toString();</span>
+    }
+
+    private static void printWhitespaces(int count, StringBuilder sb) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (int i = 0; i &lt; count; i++) {</span>
+<span class="nc" id="L84">            System.out.print(&quot; &quot;);</span>
+<span class="nc" id="L85">            sb.append(&quot; &quot;);</span>
+        }
+
+<span class="nc" id="L88">    }</span>
+
+    private static &lt;T extends Comparable&lt;?&gt;&gt; int maxLevel(AVLNode&lt;T&gt; node) {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (node == null)</span>
+<span class="nc" id="L92">            return 0;</span>
+
+<span class="nc" id="L94">        return Math.max(TreePrinter.maxLevel(node.getLeft()), TreePrinter.maxLevel(node.getRight())) + 1;</span>
+    }
+
+    private static &lt;T&gt; boolean isAllElementsNull(List&lt;T&gt; list) {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        for (Object object : list) {</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (object != null)</span>
+<span class="nc" id="L100">                return false;</span>
+<span class="nc" id="L101">        }</span>
+
+<span class="nc" id="L103">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

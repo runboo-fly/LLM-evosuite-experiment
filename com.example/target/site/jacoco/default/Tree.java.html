@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tree.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">testproject</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Tree.java</span></div><h1>Tree.java</h1><pre class="source lang-java linenums">import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+/**
+ * Created by louay on 4/28/2017.
+ */
+public class Tree {
+
+<span class="nc" id="L12">    private AVLNode&lt;String&gt; root = null;</span>
+    private int size;
+
+<span class="nc" id="L15">    public Tree(){</span>
+<span class="nc" id="L16">        size = 0;</span>
+<span class="nc" id="L17">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L21">        return TreePrinter.printNode(root);</span>
+    }
+
+    public boolean insertWord(String word){
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (root == null){</span>
+<span class="nc" id="L26">            root = new AVLNode&lt;String&gt;(word);</span>
+<span class="nc" id="L27">            size++;</span>
+<span class="nc" id="L28">            return true;</span>
+        } else {
+            try {
+<span class="nc" id="L31">                root = root.insert(word);</span>
+<span class="nc" id="L32">                size++;</span>
+<span class="nc" id="L33">                return true;</span>
+<span class="nc" id="L34">            } catch (Exception e) {</span>
+<span class="nc" id="L35">                return false;</span>
+            }
+        }
+    }
+
+    public boolean[] insertWords(File file){
+        try {
+<span class="nc" id="L42">            List&lt;String&gt; lines = Files.readAllLines(Paths.get(file.getPath()));</span>
+<span class="nc" id="L43">            boolean[] inserted = new boolean[lines.size()];</span>
+<span class="nc" id="L44">            int i = 0;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">            for (String line : lines) {</span>
+<span class="nc" id="L46">                inserted[i] = this.insertWord(line);</span>
+<span class="nc" id="L47">                i++;</span>
+<span class="nc" id="L48">            }</span>
+<span class="nc" id="L49">            return inserted;</span>
+<span class="nc" id="L50">        } catch (IOException e) {</span>
+<span class="nc" id="L51">            e.printStackTrace();</span>
+<span class="nc" id="L52">            return null;</span>
+        }
+    }
+
+    public boolean deleteWord(String word) throws Exception {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (root != null) {</span>
+<span class="nc bnc" id="L58" title="All 4 branches missed.">            if (root.getElement().equals(word) &amp;&amp; size == 1) {</span>
+<span class="nc" id="L59">                size--;</span>
+<span class="nc" id="L60">                root = null;</span>
+<span class="nc" id="L61">                return true;</span>
+            }
+<span class="nc" id="L63">            AVLNode&lt;String&gt; deletedNode = root.delete(word);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (deletedNode == null) {</span>
+<span class="nc" id="L65">                return false;</span>
+            }
+<span class="nc" id="L67">            root = deletedNode;</span>
+<span class="nc" id="L68">            size--;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (size == 0) {</span>
+<span class="nc" id="L70">                this.root = null;</span>
+            }
+<span class="nc" id="L72">            return true;</span>
+        } else {
+<span class="nc" id="L74">            throw new Exception(&quot;Tree is empty&quot;);</span>
+        }
+    }
+
+    public boolean[] deleteWords(File file) throws Exception {
+        try {
+<span class="nc" id="L80">            List&lt;String&gt; lines = Files.readAllLines(Paths.get(file.getPath()));</span>
+<span class="nc" id="L81">            boolean[] deleted = new boolean[lines.size()];</span>
+<span class="nc" id="L82">            int i = 0;</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            for (String line : lines) {</span>
+<span class="nc" id="L84">                deleted[i] = this.deleteWord(line);</span>
+<span class="nc" id="L85">                i++;</span>
+<span class="nc" id="L86">            }</span>
+<span class="nc" id="L87">            return deleted;</span>
+<span class="nc" id="L88">        } catch (IOException e) {</span>
+<span class="nc" id="L89">            e.printStackTrace();</span>
+<span class="nc" id="L90">            return null;</span>
+        }
+    }
+
+    public boolean searchWord(String word) throws Exception {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (root == null){</span>
+<span class="nc" id="L96">            throw new Exception(&quot;Tree is empty&quot;);</span>
+        } else {
+<span class="nc" id="L98">            return root.search(word);</span>
+        }
+    }
+
+    public boolean[] searchWords(File file) throws Exception {
+        try {
+<span class="nc" id="L104">            List&lt;String&gt; lines = Files.readAllLines(Paths.get(file.getPath()));</span>
+<span class="nc" id="L105">            boolean[] found = new boolean[lines.size()];</span>
+<span class="nc" id="L106">            int i = 0;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            for (String line : lines) {</span>
+<span class="nc" id="L108">                found[i] = this.searchWord(line);</span>
+<span class="nc" id="L109">                i++;</span>
+<span class="nc" id="L110">            }</span>
+<span class="nc" id="L111">            return found;</span>
+
+<span class="nc" id="L113">        } catch (IOException e) {</span>
+<span class="nc" id="L114">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L116">        return null;</span>
+    }
+
+    public int getSize() {
+<span class="nc" id="L120">        return size;</span>
+    }
+
+    public int getHeight() {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        return this.root == null? 0 : this.root.getHeight();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
