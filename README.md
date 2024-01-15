@@ -1,4 +1,5 @@
 ### 1.环境准备：java8，maven
+安装evosuite-runtime等依赖库，参考pom.xml文件
 ### 2.项目核心代码：
 /IdeaProjects/EvoSuite-IDEA/com.example/src的目录结构如下, main/java里放置被测代码
 ```
@@ -35,7 +36,7 @@ mvn clean install
 └── testproject-1.0-SNAPSHOT.jar
 ```
 ### 4.生成unit test
-使用https://github.com/runboo-fly/evosuite_LLM中的evosuite.jar文件。该jar文件已上传到本项目。
+使用evosuite_LLM项目生成的的evosuite.jar文件。该jar文件已上传到本项目可直接使用。
 使用此jar文件对本项目testproject生成unit test的命令为：
 ```
 java -jar target/evosuite-master-1.2.1-SNAPSHOT.jar \
@@ -45,4 +46,4 @@ java -jar target/evosuite-master-1.2.1-SNAPSHOT.jar \
 -target yourpath/target/classes
 ```
 其中```target/evosuite-master-1.2.1-SNAPSHOT.jar```为evosuite_LLM项目所生成的jar文件；
-```-base_dir```指定输出unit test的位置，```-projectCP```指定工作路径，为第3步中生成的target.classes文件和jar包所在路径，```-target```指定被测代码路径，为第3步中生成的target文件所在路径。若想测试单个类，请使用```-class <args>```
+```-base_dir```指定输出unit test的位置，```--generateSuite```指定使用所有测试套件，包括LLM迭代过程，```-projectCP```指定工作路径，为第3步中生成的target.classes文件和jar包所在路径，```-target```指定被测代码路径，为第3步中生成的target文件所在路径。若想测试单个类，请使用```-class <args>```
