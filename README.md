@@ -1,3 +1,4 @@
+test
 ### 1.环境准备：java8，maven
 ### 2.项目核心代码：
 /IdeaProjects/EvoSuite-IDEA/com.example/src的目录结构如下, main/java里放置被测代码
