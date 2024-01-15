@@ -35,8 +35,8 @@ mvn clean install
 └── testproject-1.0-SNAPSHOT.jar
 ```
 ### 4.生成unit test
-按照https://github.com/runboo-fly/evosuite_LLM中的readme，生成evosuite.jar文件。
-在evosuite_LLM项目的master目录下使用此jar文件对本项目testproject生成unit test的命令为：
+使用https://github.com/runboo-fly/evosuite_LLM中的evosuite.jar文件。该jar文件已上传到本项目。
+使用此jar文件对本项目testproject生成unit test的命令为：
 ```
 java -jar target/evosuite-master-1.2.1-SNAPSHOT.jar \
 -base_dir yourpath/src/test/java \
